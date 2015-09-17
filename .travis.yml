@@ -17,4 +17,4 @@ before_install:
 install: mvn install -DskipTests=true -Dinvoker.skip=true
 script:
   - echo "<settings><servers><server><id>ossrh</id><username>\${env.SONATYPE_USERNAME}</username><password>\${env.SONATYPE_PASSWORD}</password></server></servers></settings>" > ~/.m2/settings.xml
-  - mvn deploy -P $TRAVIS_BRANCH -Dgpg.passphrase=$GPG_PASSPHRASE -Dgpg.homedir=.
+  - mvn deploy -Dgpg.passphrase=$GPG_PASSPHRASE -Dgpg.homedir=.
