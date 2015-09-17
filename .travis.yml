@@ -1,7 +1,16 @@
+language: java
+jdk: oraclejdk8
+
 cache:
   directories:
-  - $HOME/.m2
+  - $HOME/.m2/repository
+
+env:
+  global:
+    - secure: "PXRUX8Rjr3LsLLfHb0pDwq52unIlDMkwolRGJXgSkXxv+0kWw8gSoOlRJrYD4nyQen64h0nPK/mZWB3Q66990rTKsZrj6qQWmkT/aASmbccXcqzwu/ym1jYUX98x3YvRyBSh/QpKtrTSD+WjCl6UzZ5S3ZqAB7Ek0HUqmDUvOF+A8TzWgAPw78HF8q7mzepzKYbLhk4T2GJ9y072yHissi0cXbJpkg0A/Xhzh43Wx7VCa2xs9XBfVjeOrvQxlAcUyhch9/Pf55xgeDpnpfRApbcCoFmZfxLHseh3oOX5KZI+22mZYWaekEhVdcsbcSQYRwkqrwJvPj4tnAiT2PFqfVQ/IlgWZfr6xW04tzzx3IqrLPeaDx/q3B0kMnm0747bJYPMO/X4HWkSgNdm0/RBsCCZ2Hw1fr+aD/ox7gjF9pQodpa53WbVg3+BN6LU97oxYxJGQmVixS6cJon+6AzQpO6u/myPQwAYcxMKsltj5e3v1J4nBOqun29+VgOqKOPp0IBJN7jEix6OdOmHRJzJhCYie6I2BKZJBJ2Mlx3SXlPskFOrf6GYrNKCEG3gmuXqH8onnlxssZkRSRGpvsEl6SRQXfAostVJrepEJrjOuwjsEjATX68BLZheELhg5WlLg/BXoTIv49GW22+/4HPOEOFpS/SrPGUFBp/JZNgj/8M="
+    - secure: "antSxADxdt0YBIzad7bkUUOqxTvPYaAr+HHX2DLKlRy4Ym0p+W9+0/qvQzqvyNb8J9VaEd8wa68p0ESi1kuXxuB2J1Cq2l7XPU1c34wsc5K6PEiSUOhtFH4GEBzUC/6oOVm+JlUumfD8setg80WbjxA8o4XaBmIkEjVCFnA3ewUg+G0bO9AzTy0c0K6L4WkZiBFzlo6BWemHgpaWaMmrpk60MxMNfdzVvHyYEnNGas6DgqG7YvAZZIjt0z4MOJw+HRmf+k2T8Al8R7xGVMTc7Mdvvvgalv8mX1rvtLTjS4qKoSTjWmNP8JXyJDL5+ivIjBNt7fT+hzvolvFx3Ern5PL8EH8uhKKeXhFCUb23tSM94I13Cg366zR8PU8LYn3hJ1LM0dI4AoGZfMolf7CaPrralM4OUumUrP1Cjr2OnsVBmSPJDSfm97duWTd2nAgjIoZTUitaqPvzuVtma02s7Qhq3ye3Ora8UcU3DdWoi5bPRpu3MRcO+VmmQ1HXLxWlLWaJDAI8G2ACsEKcZkEX4w/A7Sroq/FuAQjDYCCbraQVcEHzA1h76jiurdcoUduNOyy/YMOibkkMlc041+oH/8r9i2njZtiZP15U+Aejh4wALYzeIDUq4TBLyMKspsR/XpTcuC/ERmN9R4Oqq90pG60/ELfwUABNg6flTg9qV+Q="
+
 install: mvn install -DskipTests=true -Dinvoker.skip=true
-jdk: oraclejdk8
-language: java
-script: mvn verify
+script:
+  - echo "<settings><servers><server><id>ossrh</id><username>\${env.SONATYPE_USERNAME}</username><password>\${env.SONATYPE_PASSWORD}</password></server></servers></settings>" > ~/.m2/settings.xml
+  - mvn deploy -P $TRAVIS_BRANCH
