@@ -12,10 +12,9 @@ env:
     - secure: "FcET73GHOCEeM5nqZpkL857F6lw8hlkNEILOgqjXPNXGjtRbEIYVZ48oOcn21RPNpOmeR8uf+PTaKGAVkXslOudh/LoKeF2Uu7OdYjKY/HHKMHj/MhnhsHzpYAkqz4PzjqUkITnNn3wlzB+fcDiJ40paZiRYToR0k7/rqY3kz9cO+fnCxccyijX2bAPgeJdAUIZNV64V7OOnIHQ8VSAPi3vy+aDfUk4u88/EHZk+MxNCqnwr7ddDwQPiY1bZ7kW1Ji5L5QHM164KnuRLFEo6uDM//Li8V+5OOdeWNKgJBG5szzdkvE6Y1lsrPaJpDy1FEhFEkR9aTdPGCVY75dV1nUnUitWFeoq53ysq+qaMdZaqIkTnSvrwz6Fjv9Nzz+E7XXDN/FLGBYl5fiOseo2T82i7TrF07ErSNkNRoC5rUP0WPoNTmNqsW2uW/yYJo5xa0qsUh2EbspMx1lH6/tMhlpmwHp6YqFdDoUHzqWR9Z7nLTjaAa0elPRxtAUROlvV2A6KdhZPv8GcQmOe5ygxgb4Gu2+hAdbDuER4qfH15L7/wLLgJmfFGYkGdxUAq3ZjDTDeNKJnXX0xB/wlIRq0U7W5hiNM6ocTzin1gpR7Kzy7oIns+VHhePoWmg9KxYc1UCTiy/acyAmS53os7Ou9PtAqmICq5XKjNES8sd3Llsnw="
 
 before_install:
-  - mkdir -p ~/.gnupg
-  - openssl aes-256-cbc -K $encrypted_086d1daf36ef_key -iv $encrypted_086d1daf36ef_iv -in pubring.gpg.enc -out ~\/.gnupg/pubring.gpg -d
-  - openssl aes-256-cbc -K $encrypted_086d1daf36ef_key -iv $encrypted_086d1daf36ef_iv -in secring.gpg.enc -out ~\/.gnupg/secring.gpg -d
+  - openssl aes-256-cbc -K $encrypted_086d1daf36ef_key -iv $encrypted_086d1daf36ef_iv -in pubring.gpg.enc -out pubring.gpg -d
+  - openssl aes-256-cbc -K $encrypted_086d1daf36ef_key -iv $encrypted_086d1daf36ef_iv -in secring.gpg.enc -out secring.gpg -d
 install: mvn install -DskipTests=true -Dinvoker.skip=true
 script:
   - echo "<settings><servers><server><id>ossrh</id><username>\${env.SONATYPE_USERNAME}</username><password>\${env.SONATYPE_PASSWORD}</password></server></servers></settings>" > ~/.m2/settings.xml
-  - mvn deploy -P $TRAVIS_BRANCH -Dgpg.passphrase=$GPG_PASSPHRASE
+  - mvn deploy -P $TRAVIS_BRANCH -Dgpg.passphrase=$GPG_PASSPHRASE -Dgpg.homedir=.
