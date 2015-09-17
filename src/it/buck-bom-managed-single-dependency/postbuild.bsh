@@ -1,0 +1,16 @@
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.io.*;
+import java.util.*;
+
+try {
+	Path basePath = basedir.toPath();
+	Path expected = basePath.resolve("BUCK");
+	Path actual = basePath.resolve("target/BUCK");
+	List expectedLines = Files.readAllLines(expected);
+	List actualLines = Files.readAllLines(actual);
+	return actualLines.equals(expectedLines);
+} catch(Throwable t) {
+    t.printStackTrace();
+    return false;
+}

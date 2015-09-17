@@ -1,0 +1,78 @@
+java_library(
+  name = 'COMPILE',
+  visibility = ['PUBLIC'],
+  exported_deps = [
+    ':org.apache.maven.shared-maven-dependency-tree-jar',
+    ':org.codehaus.plexus-plexus-component-annotations-jar',
+    ':org.eclipse.aether-aether-util-jar'
+  ],
+)
+
+java_library(
+  name = 'OPTIONAL',
+  visibility = ['PUBLIC'],
+  exported_deps = [
+    
+  ],
+)
+
+java_library(
+  name = 'PROVIDED',
+  visibility = ['PUBLIC'],
+  exported_deps = [
+    
+  ],
+)
+
+java_library(
+  name = 'RUNTIME',
+  visibility = ['PUBLIC'],
+  exported_deps = [
+    
+  ],
+)
+
+java_library(
+  name = 'TEST',
+  visibility = ['PUBLIC'],
+  exported_deps = [
+    
+  ],
+)
+
+prebuilt_jar(
+  name = 'org.apache.maven.shared-maven-dependency-tree-jar',
+  binary_jar = ':remote-org.apache.maven.shared-maven-dependency-tree-jar',
+)
+
+remote_file(
+  name = 'remote-org.apache.maven.shared-maven-dependency-tree-jar',
+  out = 'org.apache.maven.shared-maven-dependency-tree-jar-2.2.jar',
+  url = 'mvn:org.apache.maven.shared:maven-dependency-tree:jar:2.2',
+  sha1 = '5d9ce6add7b714b8095f0e3e396c5e9f8c5dcfef',
+)
+
+prebuilt_jar(
+  name = 'org.codehaus.plexus-plexus-component-annotations-jar',
+  binary_jar = ':remote-org.codehaus.plexus-plexus-component-annotations-jar',
+)
+
+remote_file(
+  name = 'remote-org.codehaus.plexus-plexus-component-annotations-jar',
+  out = 'org.codehaus.plexus-plexus-component-annotations-jar-1.5.5.jar',
+  url = 'mvn:org.codehaus.plexus:plexus-component-annotations:jar:1.5.5',
+  sha1 = 'c72f2660d0cbed24246ddb55d7fdc4f7374d2078',
+)
+
+prebuilt_jar(
+  name = 'org.eclipse.aether-aether-util-jar',
+  binary_jar = ':remote-org.eclipse.aether-aether-util-jar',
+)
+
+remote_file(
+  name = 'remote-org.eclipse.aether-aether-util-jar',
+  out = 'org.eclipse.aether-aether-util-jar-0.9.0.M2.jar',
+  url = 'mvn:org.eclipse.aether:aether-util:jar:0.9.0.M2',
+  sha1 = 'b957089deb654647da320ad7507b0a4b5ce23813',
+)
+

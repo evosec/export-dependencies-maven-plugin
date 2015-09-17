@@ -1,0 +1,40 @@
+java_library(
+  name = 'COMPILE',
+  visibility = ['PUBLIC'],
+  exported_deps = [
+    
+  ],
+)
+
+java_library(
+  name = 'OPTIONAL',
+  visibility = ['PUBLIC'],
+  exported_deps = [
+    
+  ],
+)
+
+java_library(
+  name = 'PROVIDED',
+  visibility = ['PUBLIC'],
+  exported_deps = [
+    
+  ],
+)
+
+java_library(
+  name = 'RUNTIME',
+  visibility = ['PUBLIC'],
+  exported_deps = [
+    
+  ],
+)
+
+java_library(
+  name = 'TEST',
+  visibility = ['PUBLIC'],
+  exported_deps = [
+    
+  ],
+)
+

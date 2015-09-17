@@ -1,0 +1,103 @@
+java_library(
+  name = 'COMPILE',
+  visibility = ['PUBLIC'],
+  exported_deps = [
+    ':org.springframework.data-spring-data-commons-jar',
+    ':org.springframework-spring-core-jar',
+    ':org.springframework-spring-beans-jar',
+    ':org.slf4j-slf4j-api-jar'
+  ],
+)
+
+java_library(
+  name = 'OPTIONAL',
+  visibility = ['PUBLIC'],
+  exported_deps = [
+    
+  ],
+)
+
+java_library(
+  name = 'PROVIDED',
+  visibility = ['PUBLIC'],
+  exported_deps = [
+    
+  ],
+)
+
+java_library(
+  name = 'RUNTIME',
+  visibility = ['PUBLIC'],
+  exported_deps = [
+    ':org.slf4j-jcl-over-slf4j-jar'
+  ],
+)
+
+java_library(
+  name = 'TEST',
+  visibility = ['PUBLIC'],
+  exported_deps = [
+    
+  ],
+)
+
+prebuilt_jar(
+  name = 'org.slf4j-jcl-over-slf4j-jar',
+  binary_jar = ':remote-org.slf4j-jcl-over-slf4j-jar',
+)
+
+remote_file(
+  name = 'remote-org.slf4j-jcl-over-slf4j-jar',
+  out = 'org.slf4j-jcl-over-slf4j-jar-1.7.12.jar',
+  url = 'mvn:org.slf4j:jcl-over-slf4j:jar:1.7.12',
+  sha1 = 'adef7a9e1263298255fdb5cb107ff171d07c82f3',
+)
+
+prebuilt_jar(
+  name = 'org.slf4j-slf4j-api-jar',
+  binary_jar = ':remote-org.slf4j-slf4j-api-jar',
+)
+
+remote_file(
+  name = 'remote-org.slf4j-slf4j-api-jar',
+  out = 'org.slf4j-slf4j-api-jar-1.7.12.jar',
+  url = 'mvn:org.slf4j:slf4j-api:jar:1.7.12',
+  sha1 = '8e20852d05222dc286bf1c71d78d0531e177c317',
+)
+
+prebuilt_jar(
+  name = 'org.springframework-spring-beans-jar',
+  binary_jar = ':remote-org.springframework-spring-beans-jar',
+)
+
+remote_file(
+  name = 'remote-org.springframework-spring-beans-jar',
+  out = 'org.springframework-spring-beans-jar-4.0.9.RELEASE.jar',
+  url = 'mvn:org.springframework:spring-beans:jar:4.0.9.RELEASE',
+  sha1 = '295ecbf61e2313b4472947a1b3084022ba09e524',
+)
+
+prebuilt_jar(
+  name = 'org.springframework-spring-core-jar',
+  binary_jar = ':remote-org.springframework-spring-core-jar',
+)
+
+remote_file(
+  name = 'remote-org.springframework-spring-core-jar',
+  out = 'org.springframework-spring-core-jar-4.0.9.RELEASE.jar',
+  url = 'mvn:org.springframework:spring-core:jar:4.0.9.RELEASE',
+  sha1 = 'a7aea1dd2c5cde050d2d62833ec397d899a00854',
+)
+
+prebuilt_jar(
+  name = 'org.springframework.data-spring-data-commons-jar',
+  binary_jar = ':remote-org.springframework.data-spring-data-commons-jar',
+)
+
+remote_file(
+  name = 'remote-org.springframework.data-spring-data-commons-jar',
+  out = 'org.springframework.data-spring-data-commons-jar-1.9.3.RELEASE.jar',
+  url = 'mvn:org.springframework.data:spring-data-commons:jar:1.9.3.RELEASE',
+  sha1 = '4cb967936cfb3ddaa493d632120b765d918caafd',
+)
+

@@ -1,0 +1,30 @@
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.io.*;
+import java.util.*;
+
+try {
+	Path basePath = basedir.toPath();
+	List expectedLines = Files.readAllLines(basePath.resolve("BUCK"));
+	List actualLines = Files.readAllLines(basePath.resolve("target/BUCK"));
+	if (!actualLines.equals(expectedLines)) {
+		return false;
+	}
+	
+	basePath = basedir.toPath().resolve("module1");
+	expectedLines = Files.readAllLines(basePath.resolve("BUCK"));
+	actualLines = Files.readAllLines(basePath.resolve("target/BUCK"));
+	if (!actualLines.equals(expectedLines)) {
+		return false;
+	}
+	
+	basePath = basedir.toPath().resolve("module2");
+	expectedLines = Files.readAllLines(basePath.resolve("BUCK"));
+	actualLines = Files.readAllLines(basePath.resolve("target/BUCK"));
+	if (!actualLines.equals(expectedLines)) {
+		return false;
+	}
+} catch(Throwable t) {
+    t.printStackTrace();
+    return false;
+}

@@ -1,0 +1,52 @@
+java_library(
+  name = 'COMPILE',
+  visibility = ['PUBLIC'],
+  exported_deps = [
+    ':com.google.guava-guava-jar'
+  ],
+)
+
+java_library(
+  name = 'OPTIONAL',
+  visibility = ['PUBLIC'],
+  exported_deps = [
+    
+  ],
+)
+
+java_library(
+  name = 'PROVIDED',
+  visibility = ['PUBLIC'],
+  exported_deps = [
+    
+  ],
+)
+
+java_library(
+  name = 'RUNTIME',
+  visibility = ['PUBLIC'],
+  exported_deps = [
+    
+  ],
+)
+
+java_library(
+  name = 'TEST',
+  visibility = ['PUBLIC'],
+  exported_deps = [
+    
+  ],
+)
+
+prebuilt_jar(
+  name = 'com.google.guava-guava-jar',
+  binary_jar = ':remote-com.google.guava-guava-jar',
+)
+
+remote_file(
+  name = 'remote-com.google.guava-guava-jar',
+  out = 'com.google.guava-guava-jar-18.0.jar',
+  url = 'mvn:com.google.guava:guava:jar:18.0',
+  sha1 = 'cce0823396aa693798f8882e64213b1772032b09',
+)
+
