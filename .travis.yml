@@ -5,10 +5,10 @@ cache:
   directories:
   - $HOME/.m2/repository
 
-before_install:
+install:
+before_script:
   - openssl aes-256-cbc -K $encrypted_086d1daf36ef_key -iv $encrypted_086d1daf36ef_iv -in gnupg.tar.enc -out gnupg.tar -d
   - tar xvf gnupg.tar
-install: mvn install -DskipTests=true -Dinvoker.skip=true
 script:
   - echo "<settings><servers><server><id>ossrh</id><username>\${env.SONATYPE_USERNAME}</username><password>\${env.SONATYPE_PASSWORD}</password></server></servers></settings>" > ~/.m2/settings.xml
   - mvn deploy -Dgpg.passphrase=$GPG_PASSPHRASE -Dgpg.homedir=.
