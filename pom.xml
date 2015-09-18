@@ -53,7 +53,22 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+        <gpg.skip>true</gpg.skip>
+
     </properties>
+
+    <profiles>
+        <profile>
+            <activation>
+                <property>
+                    <name>gpg.passphrase</name>
+                </property>
+            </activation>
+            <properties>
+                <gpg.skip>false</gpg.skip>
+            </properties>
+        </profile>
+    </profiles>
 
     <dependencies>
 
