@@ -63,18 +63,23 @@ public class ExportBuckDependenciesMojo extends AbstractMojo {
 				Files.createDirectories(parent);
 			}
 
-			List<MavenProject> reactorProjects =
-			        session.getProjectDependencyGraph().getSortedProjects();
+			if (session.getProjectDependencyGraph() != null) {
+				List<MavenProject> reactorProjects =
+				        session.getProjectDependencyGraph().getSortedProjects();
 
-			Set<String> reactorArtifactIds =
-			        reactorProjects.stream().map(m -> m.getArtifactId())
-			                .filter(s -> !s
-			                        .equalsIgnoreCase(project.getArtifactId()))
-			        .collect(Collectors.toSet());
+				Set<String> reactorArtifactIds =
+				        reactorProjects.stream().map(m -> m.getArtifactId())
+				                .filter(s -> !s.equalsIgnoreCase(
+				                        project.getArtifactId()))
+				        .collect(Collectors.toSet());
 
-			dependencyGraph = dependencyGraphBuilder.buildDependencyGraph(
-			        project, new ExclusionSetFilter(reactorArtifactIds),
-			        reactorProjects);
+				dependencyGraph = dependencyGraphBuilder.buildDependencyGraph(
+				        project, new ExclusionSetFilter(reactorArtifactIds),
+				        reactorProjects);
+			} else {
+				dependencyGraph = dependencyGraphBuilder
+				        .buildDependencyGraph(project, null, null);
+			}
 
 			List<String> output = new ArrayList<>();
 
