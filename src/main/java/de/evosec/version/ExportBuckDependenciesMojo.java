@@ -144,7 +144,7 @@ public class ExportBuckDependenciesMojo extends AbstractMojo {
 			        .forEach(result::addAll);
 		} else if (artifact.isOptional() && "optional".equals(scope)) {
 			result.add(artifact);
-			node.getChildren().stream().map(d -> collectDependencies(d, null))
+			node.getChildren().stream().map(d -> collectDependencies(d, scope))
 			        .forEach(result::addAll);
 		} else if (artifact.isOptional()) {
 			return result;
