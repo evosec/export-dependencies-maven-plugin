@@ -27,6 +27,7 @@ import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
+import org.apache.maven.project.ProjectBuildingRequest;
 import org.apache.maven.shared.dependency.graph.DependencyGraphBuilder;
 import org.apache.maven.shared.dependency.graph.DependencyGraphBuilderException;
 import org.apache.maven.shared.dependency.graph.DependencyNode;
@@ -63,6 +64,10 @@ public class ExportBuckDependenciesMojo extends AbstractMojo {
 				Files.createDirectories(parent);
 			}
 
+			ProjectBuildingRequest projectBuildingRequest =
+			        session.getProjectBuildingRequest();
+			projectBuildingRequest.setProject(project);
+
 			if (session.getProjectDependencyGraph() != null) {
 				List<MavenProject> reactorProjects =
 				        session.getProjectDependencyGraph().getSortedProjects();
@@ -74,11 +79,14 @@ public class ExportBuckDependenciesMojo extends AbstractMojo {
 				        .collect(Collectors.toSet());
 
 				dependencyGraph = dependencyGraphBuilder.buildDependencyGraph(
-				        project, new ExclusionSetFilter(reactorArtifactIds),
-				        reactorProjects);
+				    projectBuildingRequest,
+				    new ExclusionSetFilter(reactorArtifactIds),
+				    reactorProjects);
 			} else {
 				dependencyGraph = dependencyGraphBuilder
-				        .buildDependencyGraph(project, null, null);
+				    .buildDependencyGraph(
+				        projectBuildingRequest, null,
+				        null);
 			}
 
 			List<String> output = new ArrayList<>();
