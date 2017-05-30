@@ -200,15 +200,21 @@ public class ExportBuckDependenciesMojo extends AbstractMojo {
 			Path path = Paths.get(localRepository.getBasedir(),
 			        localRepository.pathOf(artifact) + ".sha1");
 			if (Files.exists(path)) {
-				// The sha1 file sometimes has stuff after the sha. Example:
-				// https://repo1.maven.org/maven2/javax/annotation/jsr250-api/1.0/jsr250-api-1.0.jar.sha1
-				String firstLine = Files.readAllLines(path).get(0);
-				return firstLine.split(" ")[0];
-			} else {
-				Path artifactPath = Paths.get(localRepository.getBasedir(),
-				        localRepository.pathOf(artifact));
-				return sha1(artifactPath);
+				List<String> lines = Files.readAllLines(path);
+				if (!lines.isEmpty()) {
+					String sha1 = lines.get(0);
+					// The sha1 file sometimes has stuff after the sha. Example:
+					// https://repo1.maven.org/maven2/javax/annotation/jsr250-api/1.0/jsr250-api-1.0.jar.sha1
+					int spacePos = sha1.indexOf(" ");
+					if (spacePos > 0) {
+						sha1 = sha1.substring(0, spacePos - 1);
+					}
+					return sha1;
+				}
 			}
+			Path artifactPath = Paths.get(localRepository.getBasedir(),
+				localRepository.pathOf(artifact));
+			return sha1(artifactPath);
 		} catch (Exception e) {
 			getLog().error(e);
 		}
