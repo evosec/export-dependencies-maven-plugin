@@ -207,7 +207,7 @@ public class ExportBuckDependenciesMojo extends AbstractMojo {
 					// https://repo1.maven.org/maven2/javax/annotation/jsr250-api/1.0/jsr250-api-1.0.jar.sha1
 					int spacePos = sha1.indexOf(" ");
 					if (spacePos > 0) {
-						sha1 = sha1.substring(0, spacePos - 1);
+						sha1 = sha1.substring(0, spacePos);
 					}
 					return sha1;
 				}
