@@ -8,7 +8,7 @@ The only format that is currently supported is [buck](https://buckbuild.com/).
 
 So for example it converts
 
-~~~~
+~~~
 <project
     xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -26,11 +26,12 @@ So for example it converts
         </dependency>
     </dependencies>
 </project>
-~~~~
+~~~
 
 to
 
-~~~~~
+~~~
+
 java_library(
   name = 'COMPILE',
   visibility = ['PUBLIC'],
@@ -82,11 +83,13 @@ remote_file(
   url = 'mvn:com.google.guava:guava:jar:18.0',
   sha1 = 'cce0823396aa693798f8882e64213b1772032b09',
 )
-~~~~
+
+~~~
 
 Then you can use something like the following BUCK file to build your project. That way you can use maven and BUCK in parallel. This eases migration and you can continue using maven to manage your dependencies. Just make sure to call `export-dependencies:buck` before running `buck`.
 
 ~~~
+
 java_library(
     name = "main",
     srcs = glob(["src/main/java/**/*.java"]),
@@ -128,4 +131,5 @@ java_library(
         "//target:PROVIDED",
     ],
 )
-~~~~
+
+~~~
