@@ -27,6 +27,7 @@ import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
+import org.apache.maven.project.ProjectBuildingRequest;
 import org.apache.maven.shared.dependency.graph.DependencyGraphBuilder;
 import org.apache.maven.shared.dependency.graph.DependencyGraphBuilderException;
 import org.apache.maven.shared.dependency.graph.DependencyNode;
@@ -63,18 +64,30 @@ public class ExportBuckDependenciesMojo extends AbstractMojo {
 				Files.createDirectories(parent);
 			}
 
-			List<MavenProject> reactorProjects =
-			        session.getProjectDependencyGraph().getSortedProjects();
+			ProjectBuildingRequest projectBuildingRequest =
+			        session.getProjectBuildingRequest();
+			projectBuildingRequest.setProject(project);
 
-			Set<String> reactorArtifactIds =
-			        reactorProjects.stream().map(m -> m.getArtifactId())
-			                .filter(s -> !s
-			                        .equalsIgnoreCase(project.getArtifactId()))
-			        .collect(Collectors.toSet());
+			if (session.getProjectDependencyGraph() != null) {
+				List<MavenProject> reactorProjects =
+				        session.getProjectDependencyGraph().getSortedProjects();
 
-			dependencyGraph = dependencyGraphBuilder.buildDependencyGraph(
-			        project, new ExclusionSetFilter(reactorArtifactIds),
-			        reactorProjects);
+				Set<String> reactorArtifactIds =
+				        reactorProjects.stream().map(m -> m.getArtifactId())
+				                .filter(s -> !s.equalsIgnoreCase(
+				                        project.getArtifactId()))
+				        .collect(Collectors.toSet());
+
+				dependencyGraph = dependencyGraphBuilder.buildDependencyGraph(
+				    projectBuildingRequest,
+				    new ExclusionSetFilter(reactorArtifactIds),
+				    reactorProjects);
+			} else {
+				dependencyGraph = dependencyGraphBuilder
+				    .buildDependencyGraph(
+				        projectBuildingRequest, null,
+				        null);
+			}
 
 			List<String> output = new ArrayList<>();
 
@@ -195,12 +208,21 @@ public class ExportBuckDependenciesMojo extends AbstractMojo {
 			Path path = Paths.get(localRepository.getBasedir(),
 			        localRepository.pathOf(artifact) + ".sha1");
 			if (Files.exists(path)) {
-				return Files.readAllLines(path).get(0);
-			} else {
-				Path artifactPath = Paths.get(localRepository.getBasedir(),
-				        localRepository.pathOf(artifact));
-				return sha1(artifactPath);
+				List<String> lines = Files.readAllLines(path);
+				if (!lines.isEmpty()) {
+					String sha1 = lines.get(0);
+					// The sha1 file sometimes has stuff after the sha. Example:
+					// https://repo1.maven.org/maven2/javax/annotation/jsr250-api/1.0/jsr250-api-1.0.jar.sha1
+					int spacePos = sha1.indexOf(" ");
+					if (spacePos > 0) {
+						sha1 = sha1.substring(0, spacePos);
+					}
+					return sha1;
+				}
 			}
+			Path artifactPath = Paths.get(localRepository.getBasedir(),
+				localRepository.pathOf(artifact));
+			return sha1(artifactPath);
 		} catch (Exception e) {
 			getLog().error(e);
 		}

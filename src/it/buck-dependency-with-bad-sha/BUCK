@@ -1,0 +1,52 @@
+java_library(
+  name = 'COMPILE',
+  visibility = ['PUBLIC'],
+  exported_deps = [
+    ':javax.annotation-jsr250-api-jar'
+  ],
+)
+
+java_library(
+  name = 'OPTIONAL',
+  visibility = ['PUBLIC'],
+  exported_deps = [
+    
+  ],
+)
+
+java_library(
+  name = 'PROVIDED',
+  visibility = ['PUBLIC'],
+  exported_deps = [
+    
+  ],
+)
+
+java_library(
+  name = 'RUNTIME',
+  visibility = ['PUBLIC'],
+  exported_deps = [
+    
+  ],
+)
+
+java_library(
+  name = 'TEST',
+  visibility = ['PUBLIC'],
+  exported_deps = [
+    
+  ],
+)
+
+prebuilt_jar(
+  name = 'javax.annotation-jsr250-api-jar',
+  binary_jar = ':remote-javax.annotation-jsr250-api-jar',
+)
+
+remote_file(
+  name = 'remote-javax.annotation-jsr250-api-jar',
+  out = 'javax.annotation-jsr250-api-jar-1.0.jar',
+  url = 'mvn:javax.annotation:jsr250-api:jar:1.0',
+  sha1 = '5025422767732a1ab45d93abfea846513d742dcf',
+)
+

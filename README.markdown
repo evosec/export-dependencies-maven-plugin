@@ -83,3 +83,49 @@ remote_file(
   sha1 = 'cce0823396aa693798f8882e64213b1772032b09',
 )
 ~~~~
+
+Then you can use something like the following BUCK file to build your project. That way you can use maven and BUCK in parallel. This eases migration and you can continue using maven to manage your dependencies. Just make sure to call `export-dependencies:buck` before running `buck`.
+
+~~~
+java_library(
+    name = "main",
+    srcs = glob(["src/main/java/**/*.java"]),
+    resources = glob(["src/main/resources/**"]),
+    resources_root = "src/main/resources",
+    exported_deps = [
+    	"//target:COMPILE",
+    ],
+    deps = [
+        "//target:OPTIONAL",
+    ],
+    provided_deps = [
+    	"//target:PROVIDED",
+    ],
+)
+
+java_test(
+    name = "test",
+    srcs = glob(["src/test/java/**/*Test.java"]),
+    resources = glob(["src/test/resources/**"]),
+    resources_root = "src/test/resources",
+    source_under_test = [":main"],
+    deps = [
+        ":main",
+        ":test_utils",
+        "//target:TEST",
+        "//target:OPTIONAL",
+        "//target:PROVIDED",
+    ],
+)
+
+java_library(
+    name = "test_utils",
+    srcs = glob(["src/test/java/**/*.java"], excludes = ["**/*Test.java"]),
+    deps = [
+    	":main",
+    	"//target:TEST",
+    	"//target:OPTIONAL",
+        "//target:PROVIDED",
+    ],
+)
+~~~~
