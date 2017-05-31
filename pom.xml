@@ -4,7 +4,7 @@
 
     <groupId>de.evosec</groupId>
     <artifactId>export-dependencies-maven-plugin</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1</version>
 
     <packaging>maven-plugin</packaging>
 
