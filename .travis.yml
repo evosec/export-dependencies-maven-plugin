@@ -5,14 +5,14 @@ cache:
   directories:
   - $HOME/.m2/repository
 
-install: mvn install -DskipTests=true -Dinvoker.skip=true
+install: ./mvnw install -DskipTests=true -Dinvoker.skip=true
 before_script:
   - openssl aes-256-cbc -K $encrypted_086d1daf36ef_key -iv $encrypted_086d1daf36ef_iv -in gnupg.tar.enc -out gnupg.tar -d
   - tar xvf gnupg.tar
 script:
   - echo "<settings><servers><server><id>ossrh</id><username>\${env.SONATYPE_USERNAME}</username><password>\${env.SONATYPE_PASSWORD}</password></server></servers></settings>" > ~/.m2/settings.xml
-  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then mvn deploy; fi'
-  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then mvn deploy -Dgpg.passphrase=$GPG_PASSPHRASE -Dgpg.homedir=.; fi'
+  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then ./mvnw deploy; fi'
+  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then ./mvnw deploy -Dgpg.passphrase=$GPG_PASSPHRASE -Dgpg.homedir=.; fi'
 
 env:
   global:
